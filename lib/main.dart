@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'about_page.dart';
+import 'home_page.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -41,7 +44,8 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      routes: {'/about': (context) => AboutPage()},
+      home: MyHomePage(title: 'asdsadsa'),
     );
   }
 }
@@ -66,7 +70,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  void _openDrawer() {
+    _scaffoldKey.currentState?.openEndDrawer();
+  }
+
+  void _goToPage(String pageName) => Navigator.pushNamed(context, pageName);
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -87,38 +97,57 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to
         // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
         // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Container(
-          height: double.infinity,
-          width: double.infinity,
-          margin: EdgeInsets.all(50.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: Colors.red,
+        // the App.build method, and use it to set our app bar title.
+        title: const Text("My App"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: _openDrawer,
+            tooltip: "Open Menu",
           ),
-          child: Container(
-            height: double.infinity,
-            width: double.infinity,
-            margin: EdgeInsets.all(50.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              color: Colors.yellow,
+        ],
+      ), // Add menu items to the drawer
+      endDrawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            const DrawerHeader(
+              decoration: BoxDecoration(color: Colors.deepPurple),
+              child: Text(
+                'Menu',
+                style: TextStyle(color: Colors.white, fontSize: 24),
+              ),
             ),
-            child: Text('hello', style: TextStyle(color: Colors.amberAccent)),
-          ),
+            ListTile(
+              title: const Text("Home"),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
+              },
+            ),
+            ListTile(
+              title: const Text("About"),
+              onTap: () => _goToPage('/about'),
+            ),
+            ListTile(title: const Text("Contact"), onTap: () {}),
+          ],
         ),
       ),
+      body: Container(
+        color: Colors.black38,
+        width: double.infinity,
+        child: Center(),
+      ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
