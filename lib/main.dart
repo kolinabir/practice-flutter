@@ -100,15 +100,23 @@ class _MyHomePageState extends State<MyHomePage> {
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Container(
-          
-          height: 100.0,
-          width: 100.0,
+          height: double.infinity,
+          width: double.infinity,
+          margin: EdgeInsets.all(50.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
             color: Colors.red,
-            
           ),
-          child: Text('hello', style: TextStyle(color: Colors.amberAccent)),
+          child: Container(
+            height: double.infinity,
+            width: double.infinity,
+            margin: EdgeInsets.all(50.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0),
+              color: Colors.yellow,
+            ),
+            child: Text('hello', style: TextStyle(color: Colors.amberAccent)),
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
